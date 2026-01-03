@@ -1,0 +1,10 @@
+[project]
+name = "dishka-disnake"
+version = "0.1.0"
+description = "Disnake mini library with Dishka integration"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "dishka>=1.7.2",
+    "disnake>=2.11.0",
+]
