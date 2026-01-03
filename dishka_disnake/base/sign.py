@@ -2,19 +2,7 @@ import inspect
 import builtins
 from typing import Callable, get_origin, get_args
 
-from disnake import (
-    ApplicationCommandInteraction,
-    CommandInteraction,
-)
-from disnake.ext.commands import Context
-
 from dishka_disnake import inject
-
-INTERACTION_TYPES = (
-    ApplicationCommandInteraction,
-    CommandInteraction,
-    Context,
-)
 
 
 def is_builtin_type(tp: object) -> bool:
