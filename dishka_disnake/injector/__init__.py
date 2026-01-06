@@ -1,13 +1,13 @@
 import inspect
 
-from typing import Callable, TypeVar, ParamSpec, Coroutine, Any, get_origin
+from typing import Callable, TypeVar, ParamSpec, Coroutine, Any, get_origin, get_args
 
 from functools import wraps
 
-from dishka import AsyncContainer
-from dishka.exceptions import NoFactoryError
+from dishka import AsyncContainer, FromDishka
 
-from dishka_disnake.state_management import state
+from dishka_disnake.state_management import State
+from dishka_disnake.base.checkers import is_dependency
 
 
 __all__ = ["inject", "inject_loose"]
@@ -28,12 +28,10 @@ def inject(
             f"@inject can be applied only to async functions: {func.__name__}"
         )
 
-
     @wraps(func)
     async def async_wrapper(*args, **kwargs):
-        container: AsyncContainer | None = state.container
+        container: AsyncContainer | None = State.container
         sig = inspect.signature(func)
-
 
         if container is None:
             raise RuntimeError("Container is not initialized, setup dishka first")
@@ -44,15 +42,17 @@ def inject(
                 if name in kwargs or param.annotation is inspect._empty:
                     continue
 
-                param_type = param.annotation
+                annotation = param.annotation
+                origin = get_origin(annotation)
 
-                if get_origin(param_type) is not None:
+                if origin is FromDishka:
+                    (dep_type,) = get_args(annotation)
+                    kwargs[name] = await c.get(dep_type)
                     continue
 
-                try:
-                    kwargs[name] = await c.get(param_type)
-                except NoFactoryError:
-                    pass
+                if not is_dependency(annotation):
+                    kwargs[name] = await c.get(annotation)
+                    continue
 
             return await func(*args, **kwargs)
 

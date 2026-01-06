@@ -20,7 +20,7 @@ if TYPE_CHECKING:
 
     from disnake.ext.commands.base_core import CommandCallback
 
-from dishka_disnake.base.sign import wrap_callback
+from dishka_disnake.injector.wrap import wrap_injector
 
 
 class SubCommandGroup(OriginalSubCommandGroup):
@@ -43,7 +43,7 @@ class SubCommandGroup(OriginalSubCommandGroup):
         """
 
         def decorator(func: Callable) -> SubCommand:
-            func = wrap_callback(func)
+            func = wrap_injector(func)
             new_func = SubCommand(
                 func,
                 self,
@@ -109,7 +109,7 @@ class InvokableSlashCommand(OriginalInvokableSlashCommand):
         """
 
         def decorator(func: Callable) -> SubCommand:
-            func = wrap_callback(func)
+            func = wrap_injector(func)
             if len(self.children) == 0 and len(self.body.options) > 0:
                 self.body.options = []
             new_func = SubCommand(
@@ -158,7 +158,7 @@ class InvokableSlashCommand(OriginalInvokableSlashCommand):
         """
 
         def decorator(func: Callable) -> SubCommandGroup:
-            func = wrap_callback(func)
+            func = wrap_injector(func)
             if len(self.children) == 0 and len(self.body.options) > 0:
                 self.body.options = []
             new_func = SubCommandGroup(
@@ -273,7 +273,7 @@ def slash_command(
     """
 
     def decorator(func: CommandCallback) -> InvokableSlashCommand:
-        func = wrap_callback(func)
+        func = wrap_injector(func)
         if not utils.iscoroutinefunction(func):
             raise TypeError(f"<{func.__qualname__}> must be a coroutine function")
         if hasattr(func, "__command_flag__"):

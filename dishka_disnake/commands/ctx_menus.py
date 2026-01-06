@@ -2,12 +2,15 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING, Any, Callable, Dict, Optional, Sequence, Union
 
-from disnake.ext.commands.ctx_menus_core import InvokableMessageCommand, InvokableUserCommand
+from disnake.ext import commands
 from disnake.flags import ApplicationInstallTypes, InteractionContextTypes
 from disnake.permissions import Permissions
-from disnake.utils import iscoroutinefunction
+from disnake.ext.commands.ctx_menus_core import (
+    InvokableMessageCommand,
+    InvokableUserCommand,
+)
 
-from dishka_disnake.base.sign import wrap_callback
+from dishka_disnake.injector.wrap import wrap_injector
 
 if TYPE_CHECKING:
     from typing_extensions import ParamSpec
@@ -23,7 +26,6 @@ if TYPE_CHECKING:
     P = ParamSpec("P")
 
 
-
 def user_command(
     *,
     name: LocalizedOptional = None,
@@ -36,7 +38,9 @@ def user_command(
     auto_sync: Optional[bool] = None,
     extras: Optional[Dict[str, Any]] = None,
     **kwargs: Any,
-) -> Callable[[InteractionCommandCallback[CogT, UserCommandInteraction, P]], InvokableUserCommand]:
+) -> Callable[
+    [InteractionCommandCallback[CogT, UserCommandInteraction, P]], InvokableUserCommand
+]:
     """A shortcut decorator that builds a user command.
 
     Parameters
@@ -106,15 +110,8 @@ def user_command(
     def decorator(
         func: InteractionCommandCallback[CogT, UserCommandInteraction, P],
     ) -> InvokableUserCommand:
-        func = wrap_callback(func)
-        if not iscoroutinefunction(func):
-            raise TypeError(f"<{func.__qualname__}> must be a coroutine function")
-        if hasattr(func, "__command_flag__"):
-            raise TypeError("Callback is already a command.")
-        if guild_ids and not all(isinstance(guild_id, int) for guild_id in guild_ids):
-            raise ValueError("guild_ids must be a sequence of int.")
-        return InvokableUserCommand(
-            func,
+        func = wrap_injector(func)
+        return commands.user_command(
             name=name,
             dm_permission=dm_permission,
             default_member_permissions=default_member_permissions,
@@ -125,7 +122,7 @@ def user_command(
             auto_sync=auto_sync,
             extras=extras,
             **kwargs,
-        )
+        )(func)
 
     return decorator
 
@@ -215,15 +212,8 @@ def message_command(
     def decorator(
         func: InteractionCommandCallback[CogT, MessageCommandInteraction, P],
     ) -> InvokableMessageCommand:
-        func = wrap_callback(func)
-        if not iscoroutinefunction(func):
-            raise TypeError(f"<{func.__qualname__}> must be a coroutine function")
-        if hasattr(func, "__command_flag__"):
-            raise TypeError("Callback is already a command.")
-        if guild_ids and not all(isinstance(guild_id, int) for guild_id in guild_ids):
-            raise ValueError("guild_ids must be a sequence of int.")
-        return InvokableMessageCommand(
-            func,
+        func = wrap_injector(func)
+        return commands.message_command(
             name=name,
             dm_permission=dm_permission,
             default_member_permissions=default_member_permissions,
@@ -234,6 +224,6 @@ def message_command(
             auto_sync=auto_sync,
             extras=extras,
             **kwargs,
-        )
+        )(func)
 
     return decorator

@@ -14,4 +14,4 @@ class _State(SingletonClass):
         self._store[key] = value
 
 
-state = _State()
+State = _State()
