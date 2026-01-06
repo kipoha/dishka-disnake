@@ -33,6 +33,7 @@ async def main():
 
     # Start your bot
     await bot.start("YOUR_BOT_TOKEN")
+```
 `setup_dishka(async_container)` prepares your async container so that commands, buttons, selects, and modals work correctly with Dishka.
 
 ---
