@@ -29,7 +29,7 @@ __all__ = (
 )
 
 
-class ChannelSelect(ui.ChannelSelect[V_co], WrappedDishkaItem, Generic[V_co]):
+class ChannelSelect(WrappedDishkaItem, ui.ChannelSelect[V_co], Generic[V_co]):
     """Represents a UI channel select menu.
 
     This is usually represented as a drop down menu.

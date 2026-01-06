@@ -31,7 +31,7 @@ from dishka_disnake.ui.base import WrappedDishkaItem
 __all__ = ("MentionableSelect", "mentionable_select")
 
 
-class MentionableSelect(ui.MentionableSelect[V_co], WrappedDishkaItem, Generic[V_co]):
+class MentionableSelect(WrappedDishkaItem, ui.MentionableSelect[V_co], Generic[V_co]):
     """Represents a UI mentionable (user/member/role) select menu.
 
     This is usually represented as a drop down menu.

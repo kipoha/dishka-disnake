@@ -35,7 +35,7 @@ __all__ = (
 SelectOptionInput = Union[List[SelectOption], List[str], Dict[str, str]]
 
 
-class StringSelect(ui.StringSelect[V_co], WrappedDishkaItem, Generic[V_co]):
+class StringSelect(WrappedDishkaItem, ui.StringSelect[V_co], Generic[V_co]):
     """Represents a UI string select menu with DI support.
 
     This is usually represented as a drop down menu.

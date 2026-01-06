@@ -3,7 +3,7 @@ from disnake import ui
 from dishka_disnake.ui.base import WrappedDishkaItem
 
 
-class Modal(ui.Modal, WrappedDishkaItem):
+class Modal(WrappedDishkaItem, ui.Modal):
     """Represents a UI Modal.
 
     .. versionadded:: 2.4

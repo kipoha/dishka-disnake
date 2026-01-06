@@ -1,6 +1,15 @@
 import inspect
 
-from typing import Callable, TypeVar, ParamSpec, Coroutine, Any, get_origin, get_args
+from typing import (
+    Callable,
+    TypeVar,
+    ParamSpec,
+    Coroutine,
+    Any,
+    Annotated,
+    get_origin,
+    get_args,
+)
 
 from functools import wraps
 
@@ -14,6 +23,21 @@ __all__ = ["inject", "inject_loose"]
 
 P = ParamSpec("P")
 R = TypeVar("R")
+
+
+def extract_fromdishka(annotation):
+    origin = get_origin(annotation)
+
+    if origin is Annotated:
+        base, *metadata = get_args(annotation)
+        for meta in metadata:
+            mod = getattr(meta, "__module__", "")
+            if mod.startswith("dishka") or mod.startswith("dishka_disnake"):
+                return base
+    elif origin is FromDishka:
+        return get_args(annotation)[0]
+
+    return None
 
 
 def inject(
@@ -43,14 +67,13 @@ def inject(
                     continue
 
                 annotation = param.annotation
-                origin = get_origin(annotation)
 
-                if origin is FromDishka:
-                    (dep_type,) = get_args(annotation)
+                dep_type = extract_fromdishka(annotation)
+                if dep_type is not None:
                     kwargs[name] = await c.get(dep_type)
                     continue
 
-                if not is_dependency(annotation):
+                if is_dependency(annotation):
                     kwargs[name] = await c.get(annotation)
                     continue
 

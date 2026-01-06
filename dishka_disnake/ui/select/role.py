@@ -27,7 +27,7 @@ __all__ = (
 )
 
 
-class RoleSelect(ui.RoleSelect[V_co], WrappedDishkaItem, Generic[V_co]):
+class RoleSelect(WrappedDishkaItem, ui.RoleSelect[V_co], Generic[V_co]):
     """Represents a UI role select menu.
 
     This is usually represented as a drop down menu.

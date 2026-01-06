@@ -29,7 +29,7 @@ __all__ = (
 )
 
 
-class UserSelect(ui.UserSelect[V_co], WrappedDishkaItem, Generic[V_co]):
+class UserSelect(WrappedDishkaItem, ui.UserSelect[V_co], Generic[V_co]):
     """Represents a UI user select menu with DI support.
 
     This is usually represented as a drop down menu.

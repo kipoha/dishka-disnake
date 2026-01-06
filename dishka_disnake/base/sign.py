@@ -2,7 +2,7 @@ import inspect
 
 from typing import Callable
 
-from dishka_disnake.base.checkers import is_dependency
+from dishka_disnake.base.checkers import is_disnake_annotation
 
 
 def rebuild_signature(func: Callable) -> inspect.Signature:
@@ -22,7 +22,7 @@ def rebuild_signature(func: Callable) -> inspect.Signature:
             params.append(param)
             continue
 
-        if is_dependency(param.annotation):
+        if is_disnake_annotation(param.annotation):
             params.append(param)
             continue
 

@@ -44,7 +44,7 @@ ClientT = TypeVar("ClientT", bound="Client")
 P = ParamSpec("P")
 
 
-class Button(ui.Button[B_co], WrappedDishkaItem, Generic[B_co]):
+class Button(WrappedDishkaItem, ui.Button[B_co], Generic[B_co]):
     """Represents a UI button with DI support.
 
     .. versionadded:: 2.0
