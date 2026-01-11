@@ -1,6 +1,6 @@
 # Dishka-Disnake Documentation
 
-> **Note:** Before using `dishka-disnake`, it is recommended to familiarize yourself with the principles of ![**Dishka**](https://github.com/reagento/dishka), as this library builds on them while providing a Disnake-like interface.
+> **Note:** Before using `dishka-disnake`, it is recommended to familiarize yourself with the principles of **[Dishka](https://github.com/reagento/dishka)**, as this library builds on them while providing a Disnake-like interface.
 
 `dishka-disnake` is a wrapper for Disnake that allows you to use all standard Disnake interactions (slash commands, user commands, message commands, buttons, selects, and modals) with a slightly different import structure and simplified setup.
 
