@@ -11,7 +11,7 @@ from typing import (
     overload,
 )
 
-from disnake import ui
+from disnake import MessageInteraction, ui
 from disnake.role import Role
 from disnake.ui.select.base import P, SelectDefaultValueInputType, V_co
 
@@ -19,7 +19,7 @@ if TYPE_CHECKING:
     from disnake.ui.item import DecoratedItem, ItemCallbackType
 
 from dishka_disnake.injector.wrap import wrap_injector
-from dishka_disnake.ui.base import WrappedDishkaItem
+from dishka_disnake.ui.base import WrappedDishkaComponent
 
 __all__ = (
     "RoleSelect",
@@ -27,7 +27,7 @@ __all__ = (
 )
 
 
-class RoleSelect(WrappedDishkaItem, ui.RoleSelect[V_co], Generic[V_co]):
+class RoleSelect(WrappedDishkaComponent[MessageInteraction], ui.RoleSelect[V_co], Generic[V_co]):
     """Represents a UI role select menu.
 
     This is usually represented as a drop down menu.

@@ -11,13 +11,13 @@ from typing import (
     overload,
 )
 
-from disnake import ui
+from disnake import MessageInteraction, ui
 
 from disnake.enums import ButtonStyle
 from disnake.partial_emoji import PartialEmoji
 from disnake.ui.item import DecoratedItem
 
-from dishka_disnake.ui.base import WrappedDishkaItem
+from dishka_disnake.ui.base import WrappedDishkaComponent
 
 __all__ = (
     "Button",
@@ -44,7 +44,7 @@ ClientT = TypeVar("ClientT", bound="Client")
 P = ParamSpec("P")
 
 
-class Button(WrappedDishkaItem, ui.Button[B_co], Generic[B_co]):
+class Button(WrappedDishkaComponent[MessageInteraction], ui.Button[B_co], Generic[B_co]):
     """Represents a UI button with DI support.
 
     .. versionadded:: 2.0

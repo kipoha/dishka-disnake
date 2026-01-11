@@ -1,12 +1,13 @@
-from typing import Any
-
-from disnake import MessageInteraction
+from typing import Any, Generic, TypeVar
 
 from dishka_disnake.injector.wrap import wrap_injector
 
 
-class WrappedDishkaItem:
-    async def callback(self, interaction: MessageInteraction, *args: Any, **kwargs: Any) -> None: ...
+T = TypeVar("T")
+
+
+class WrappedDishkaComponent(Generic[T]):
+    async def callback(self, interaction: T, *args: Any, **kwargs: Any) -> None: ...
 
     def __init_subclass__(cls, **kwargs: Any):
         super().__init_subclass__(**kwargs)

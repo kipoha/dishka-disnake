@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from dishka_disnake.ui.base import WrappedDishkaItem
+from dishka_disnake.ui.base import WrappedDishkaComponent
 from dishka_disnake.injector.wrap import wrap_injector
 
 from typing import (
@@ -15,7 +15,7 @@ from typing import (
     overload,
 )
 
-from disnake import ui
+from disnake import MessageInteraction, ui
 from disnake.member import Member
 from disnake.user import User
 from disnake.ui.select.base import P, SelectDefaultValueInputType, V_co
@@ -29,7 +29,7 @@ __all__ = (
 )
 
 
-class UserSelect(WrappedDishkaItem, ui.UserSelect[V_co], Generic[V_co]):
+class UserSelect(WrappedDishkaComponent[MessageInteraction], ui.UserSelect[V_co], Generic[V_co]):
     """Represents a UI user select menu with DI support.
 
     This is usually represented as a drop down menu.

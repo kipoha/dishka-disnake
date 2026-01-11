@@ -12,7 +12,7 @@ from typing import (
     overload,
 )
 
-from disnake import ui
+from disnake import MessageInteraction, ui
 from disnake.member import Member
 from disnake.role import Role
 from disnake.user import User
@@ -26,12 +26,12 @@ if TYPE_CHECKING:
     from disnake.ui.item import DecoratedItem, ItemCallbackType
 
 from dishka_disnake.injector.wrap import wrap_injector
-from dishka_disnake.ui.base import WrappedDishkaItem
+from dishka_disnake.ui.base import WrappedDishkaComponent
 
 __all__ = ("MentionableSelect", "mentionable_select")
 
 
-class MentionableSelect(WrappedDishkaItem, ui.MentionableSelect[V_co], Generic[V_co]):
+class MentionableSelect(WrappedDishkaComponent[MessageInteraction], ui.MentionableSelect[V_co], Generic[V_co]):
     """Represents a UI mentionable (user/member/role) select menu.
 
     This is usually represented as a drop down menu.

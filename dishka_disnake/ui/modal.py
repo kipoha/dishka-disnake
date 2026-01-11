@@ -1,9 +1,9 @@
-from disnake import ui
+from disnake import ModalInteraction, ui
 
-from dishka_disnake.ui.base import WrappedDishkaItem
+from dishka_disnake.ui.base import WrappedDishkaComponent
 
 
-class Modal(WrappedDishkaItem, ui.Modal):
+class Modal(WrappedDishkaComponent[ModalInteraction], ui.Modal):
     """Represents a UI Modal.
 
     .. versionadded:: 2.4

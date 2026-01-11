@@ -1,5 +1,4 @@
 from __future__ import annotations
-from disnake import ui
 
 from typing import (
     TYPE_CHECKING,
@@ -14,11 +13,12 @@ from typing import (
     overload,
 )
 
+from disnake import MessageInteraction, ui
 from disnake.components import SelectOption
 from disnake.ui.select.base import P, V_co
 
 from dishka_disnake.injector.wrap import wrap_injector
-from dishka_disnake.ui.base import WrappedDishkaItem
+from dishka_disnake.ui.base import WrappedDishkaComponent
 
 if TYPE_CHECKING:
     from disnake.ui.item import DecoratedItem, ItemCallbackType
@@ -35,7 +35,7 @@ __all__ = (
 SelectOptionInput = Union[List[SelectOption], List[str], Dict[str, str]]
 
 
-class StringSelect(WrappedDishkaItem, ui.StringSelect[V_co], Generic[V_co]):
+class StringSelect(WrappedDishkaComponent[MessageInteraction], ui.StringSelect[V_co], Generic[V_co]):
     """Represents a UI string select menu with DI support.
 
     This is usually represented as a drop down menu.

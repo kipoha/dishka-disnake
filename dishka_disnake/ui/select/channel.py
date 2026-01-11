@@ -12,7 +12,7 @@ from typing import (
     overload,
 )
 
-from disnake import ui
+from disnake import MessageInteraction, ui
 from disnake.enums import ChannelType
 from disnake.ui.select.base import P, SelectDefaultValueInputType, V_co
 
@@ -20,7 +20,7 @@ if TYPE_CHECKING:
     from disnake.abc import AnyChannel
     from disnake.ui.item import DecoratedItem, ItemCallbackType
 
-from dishka_disnake.ui.base import WrappedDishkaItem
+from dishka_disnake.ui.base import WrappedDishkaComponent
 from dishka_disnake.injector.wrap import wrap_injector
 
 __all__ = (
@@ -29,7 +29,7 @@ __all__ = (
 )
 
 
-class ChannelSelect(WrappedDishkaItem, ui.ChannelSelect[V_co], Generic[V_co]):
+class ChannelSelect(WrappedDishkaComponent[MessageInteraction], ui.ChannelSelect[V_co], Generic[V_co]):
     """Represents a UI channel select menu.
 
     This is usually represented as a drop down menu.
